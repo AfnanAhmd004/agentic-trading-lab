@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentic-trading-lab"
+version = "0.1.0"
+description = "A small multi-agent (quant + LLM) research framework for systematic trading"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Afnan Ahmed Adil" }]
+dependencies = ["numpy>=1.24", "pandas>=2.0"]
+
+[project.optional-dependencies]
+llm = ["anthropic>=0.30"]
+dev = ["pytest>=7"]
+
+[tool.setuptools]
+packages = ["agentic_trading_lab"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
