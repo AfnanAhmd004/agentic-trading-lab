@@ -29,8 +29,8 @@ class BacktestResult:
 def run_backtest(
     prices: pd.DataFrame,
     analysts: list,
-    pm: PortfolioManager | None = None,
-    risk: RiskAgent | None = None,
+    pm: PortfolioManager | None = None,  # or DebatePortfolioManager
+    risk: RiskAgent | None = None,  # or RiskCommittee
     execution: ExecutionAgent | None = None,
     cost_bps: float = 2.0,
     keep_signal_log: bool = False,
@@ -50,9 +50,13 @@ def run_backtest(
     for t in dates:
         row = feats.loc[t]
         signals = [a.analyse(row) for a in analysts]
-        decision = pm.decide(signals)
+        # deliberation layers (debate PM, risk committee) also see today's features
+        decision = pm.decide(signals, row) if getattr(pm, "uses_context", False) else pm.decide(signals)
         drawdown = equity / peak - 1
-        risked = risk.review(decision, row["vol_20d"], drawdown)
+        if getattr(risk, "uses_context", False):
+            risked = risk.review(decision, row["vol_20d"], drawdown, row)
+        else:
+            risked = risk.review(decision, row["vol_20d"], drawdown)
         new_position = execution.rebalance(position, risked.target_exposure)
 
         trade = abs(new_position - position)

@@ -8,6 +8,8 @@ from .agents import (
     TrendAgent,
 )
 from .backtest import BacktestResult, run_backtest
+from .committee import DebatePortfolioManager, RiskCommittee
+from .news import Headline, NewsAnalystAgent, NewsStore, synthetic_news
 from .data import load_csv, synthetic_prices
 from .llm import AnthropicLLM, CallableLLM, HeuristicLLM
 
@@ -15,6 +17,12 @@ __all__ = [
     "AnthropicLLM",
     "BacktestResult",
     "CallableLLM",
+    "DebatePortfolioManager",
+    "Headline",
+    "NewsAnalystAgent",
+    "NewsStore",
+    "RiskCommittee",
+    "synthetic_news",
     "ExecutionAgent",
     "HeuristicLLM",
     "LLMAnalystAgent",
@@ -27,4 +35,4 @@ __all__ = [
     "synthetic_prices",
 ]
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
